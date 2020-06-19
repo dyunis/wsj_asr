@@ -117,37 +117,6 @@ def train_epoch(epoch, args, trainset, trainloader, devset, devloader, model,
 
     return stats
 
-def log_stats(title, data):
-    '''
-    Logs data to a log file or the console, where {data} is a dictionary.
-    '''
-    logging.info(title)
-    logging.info('----')
-    for key, val in data.items():
-        logging.info(f'{key}: {val}')
-    logging.info('\n')
-
-def save_model(args, model, epoch, current_er, best_er):
-    '''
-    Saves a model according to a few different conditions on the epoch and the
-    error rate of the model.
-    '''
-    if epoch % args.save_interval == 0:
-        torch.save(model.state_dict(), os.path.join(args.model_dir, 
-                                                    f'{epoch}.pt'))
-
-    if epoch == args.n_epochs - 1:
-        torch.save(model.state_dict(), os.path.join(args.model_dir, 
-                                                    f'{epoch}.pt'))
-
-    if current_er < best_er:
-        torch.save(model.state_dict(), os.path.join(args.model_dir, 
-                                                    f'best.pt'))
-        best_er = current_er
-        logging.info('saving best model')
-
-    return best_er
-
 def train_batch(batch, model, ctc_loss, optimizer):
     '''
     Updates a model over a single batch of the training data.
@@ -281,6 +250,37 @@ def make_dataset_dataloader(args, jsons, split='train'):
                      collate_fn=collate_fn)
 
     return dataset, dataloader
+
+def log_stats(title, data):
+    '''
+    Logs data to a log file or the console, where {data} is a dictionary.
+    '''
+    logging.info(title)
+    logging.info('----')
+    for key, val in data.items():
+        logging.info(f'{key}: {val}')
+    logging.info('\n')
+
+def save_model(args, model, epoch, current_er, best_er):
+    '''
+    Saves a model according to a few different conditions on the epoch and the
+    error rate of the model.
+    '''
+    if epoch % args.save_interval == 0:
+        torch.save(model.state_dict(), os.path.join(args.model_dir, 
+                                                    f'{epoch}.pt'))
+
+    if epoch == args.n_epochs - 1:
+        torch.save(model.state_dict(), os.path.join(args.model_dir, 
+                                                    f'{epoch}.pt'))
+
+    if current_er < best_er:
+        torch.save(model.state_dict(), os.path.join(args.model_dir, 
+                                                    f'best.pt'))
+        best_er = current_er
+        logging.info('saving best model')
+
+    return best_er
 
 def check_valid(args):
     '''
