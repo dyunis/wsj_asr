@@ -2,7 +2,7 @@
 
 This code trains an LSTM with connectionist temporal classification (CTC) to do
 character-based automatic speech recognition (ASR) on the Wall Street Journal
-(WSJ).
+(WSJ) dataset.
 
 ### Environment
 
