@@ -100,7 +100,6 @@ def save_buckets(buckets, bucket_dir):
     '''
     utils.safe_makedirs(bucket_dir)
 
-    import pdb; pdb.set_trace()
     for i in buckets.keys():
         fname = os.path.join(bucket_dir, str(i))
         with open(fname, 'w') as f:
